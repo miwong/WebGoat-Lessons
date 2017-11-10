@@ -171,36 +171,36 @@ public class BlindNumericSqlInjection extends LessonAdapter
         
         hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
                 + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
-        hints
-            .add("Here is an example for another table:"
-            + "<br><br> In the table <i>user_data</i>, is the <i>userid</i> for the record with a <i>cc_number</i> of "
-            + "<i>333498703333</i>"
-            + " greater than 100? "
-            + "<br><br>101 AND ((SELECT userid FROM user_data WHERE cc_number='"
-            + "333498703333"
-            + "') &gt 100 ); "
-            + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-            + "invalid then answer is no.");
-        hints
-            .add("Partial Solution:" 
-                + "<br><br>Is the <i>pin</i> of the record with a <i>cc_number</i> of <i>"
-                + TARGET_CC_NUM
-                + "</i> greater than 1000? "
-                + "<br><br>101 AND ((SELECT pin FROM pins WHERE cc_number='"
-                + TARGET_CC_NUM
-                + "') &gt 1000 ); "
-                + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-                + "invalid then answer is no.");
-        hints
-            .add("Another Part of Solution:"
-                + "<br><br>Is the <i>pin</i> of the record with a <i>cc_number</i> of <i>"
-                + TARGET_CC_NUM
-                + "</i> greater than 10000? "
-                + "<br><br>101 AND ((SELECT pin FROM pins WHERE cc_number='"
-                + TARGET_CC_NUM
-                + "') &gt 10000 ); "
-                + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-                + "invalid then answer is no.");
+        //hints
+        //    .add("Here is an example for another table:"
+        //    + "<br><br> In the table <i>user_data</i>, is the <i>userid</i> for the record with a <i>cc_number</i> of "
+        //    + "<i>333498703333</i>"
+        //    + " greater than 100? "
+        //    + "<br><br>101 AND ((SELECT userid FROM user_data WHERE cc_number='"
+        //    + "333498703333"
+        //    + "') &gt 100 ); "
+        //    + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+        //    + "invalid then answer is no.");
+        //hints
+        //    .add("Partial Solution:" 
+        //        + "<br><br>Is the <i>pin</i> of the record with a <i>cc_number</i> of <i>"
+        //        + TARGET_CC_NUM
+        //        + "</i> greater than 1000? "
+        //        + "<br><br>101 AND ((SELECT pin FROM pins WHERE cc_number='"
+        //        + TARGET_CC_NUM
+        //        + "') &gt 1000 ); "
+        //        + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+        //        + "invalid then answer is no.");
+        //hints
+        //    .add("Another Part of Solution:"
+        //        + "<br><br>Is the <i>pin</i> of the record with a <i>cc_number</i> of <i>"
+        //        + TARGET_CC_NUM
+        //        + "</i> greater than 10000? "
+        //        + "<br><br>101 AND ((SELECT pin FROM pins WHERE cc_number='"
+        //        + TARGET_CC_NUM
+        //        + "') &gt 10000 ); "
+        //        + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+        //        + "invalid then answer is no.");
 
     return hints;
     }

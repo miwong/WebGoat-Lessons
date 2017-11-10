@@ -263,8 +263,9 @@ public class BackDoors extends SequentialLessonAdapter
         List<String> hints = new ArrayList<String>();
         hints.add("Your user id is 101. Use it to see your information");
         hints.add("A semi-colon usually ends a SQL statement and starts a new one.");
-        hints.add("Try this 101 or 1=1; update employee set salary=100000");
-        hints.add("For stage 2, Try 101; CREATE TRIGGER myBackDoor BEFORE INSERT ON "
+        //hints.add("Try this 101 or 1=1; update employee set salary=100000");
+        hints.add("To update salaries:  UPDATE employee SET salary=100000");
+        hints.add("For stage 2, try:  101; CREATE TRIGGER myBackDoor BEFORE INSERT ON "
                 + "employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com' WHERE userid = NEW.userid");
         return hints;
     }

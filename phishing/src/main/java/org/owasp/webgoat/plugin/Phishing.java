@@ -71,12 +71,30 @@ public class Phishing extends LessonAdapter
      */
     private boolean postedCredentials(WebSession s)
     {
-        String postedToCookieCatcher = getLessonTracker(s).getLessonProperties().getProperty(Catcher.PROPERTY,
-                                                                                                Catcher.EMPTY_STRING);
+        String postedToCookieCatcher = getLessonTracker(s).getLessonProperties().getProperty(
+                Catcher.PROPERTY, Catcher.EMPTY_STRING);
 
         // <START_OMIT_SOURCE>
-        return (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING));
+        //return (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING));
+
+        // ECE568: Also check and report posted credentials
+        if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
+            String postedUser = getLessonTracker(s).getLessonProperties().getProperty(
+                    "user", Catcher.EMPTY_STRING);
+            String postedPassword = getLessonTracker(s).getLessonProperties().getProperty(
+                    "password", Catcher.EMPTY_STRING);
+            //System.out.println("ECE568-Part1-Phishing: user = " + postedUser + "; password = " + postedPassword);
+            return (!postedUser.equals(Catcher.EMPTY_STRING)) &&
+                   (!postedPassword.equals(Catcher.EMPTY_STRING));
+        }
+        return false;
         // <END_OMIT_SOURCE>
+    }
+
+    public void restartLesson(WebSession s) {
+        getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("user", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("password", Catcher.EMPTY_STRING);
     }
 
     /**
@@ -173,8 +191,6 @@ public class Phishing extends LessonAdapter
         hints.add(getLabelManager().get("PhishingHint3"));
         hints.add(getLabelManager().get("PhishingHint4"));
         hints.add(getLabelManager().get("PhishingHint5"));
-        hints.add(getLabelManager().get("PhishingHint6"));
-        hints.add(getLabelManager().get("PhishingHint7"));
         /**
          * password<script>function hack(){ alert("Had this been a real attack... Your credentials
          * were just stolen.\nUser Name = " + document.phish.user.value + "\nPassword = " +

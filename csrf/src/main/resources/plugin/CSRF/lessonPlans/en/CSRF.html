@@ -20,6 +20,6 @@ In this way, the attacker can make the victim perform actions that they didn't i
 <p>
 <b>Goal</b>
 <!-- Start Instructions -->
-Your goal is to send an email to a newsgroup.  The email contains an image whose URL is pointing to a malicious request. In this lesson the URL should point to the "attack" servlet with the lesson's "Screen" and "menu" parameters and an extra parameter "transferFunds" having an arbitrary numeric value such as 5000.  You can construct the link by finding the "Screen" and "menu" values in the Parameters inset on the right.  Recipients of CSRF emails that happen to be authenticated at that time will have their funds transferred.  When this lesson's attack succeeds, a green checkmark appears beside the lesson name in the menu on the left.
+Your goal is to send an email to a newsgroup.  The email contains an image whose URL is pointing to a malicious request. In this lesson the URL should point to the "attack" servlet with the lesson's "Screen" and "menu" parameters and an extra parameter "transferFunds" having an arbitrary numeric value such as 5000.  You can construct the link by finding the "scr" and "menu" values in the Parameters inset on the right.  Recipients of CSRF emails that happen to be authenticated at that time will have their funds transferred.  When this lesson's attack succeeds, refresh the page and a green checkmark will appear beside the lesson name in the menu on the left.
 <!-- Stop Instructions -->
 

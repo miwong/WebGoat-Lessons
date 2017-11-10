@@ -343,7 +343,9 @@ public class CSRF extends LessonAdapter
         hints.add("In order to make the picture almost invisible try to add width='1' and height='1'.");
         hints.add("The format of the image link in HTML is <pre>&lt;img src='[URL]'&gt;</pre>");
         hints.add("Include the img tag in the message: <pre>&lt;img src='" + getServletLink()
-                + "&transferFunds=5000'&gt;</pre>");
+                + "&...'&gt;</pre>");
+        //hints.add("Include the img tag in the message: <pre>&lt;img src='" + getServletLink()
+        //        + "&transferFunds=5000'&gt;</pre>");
 
         return hints;
     }
