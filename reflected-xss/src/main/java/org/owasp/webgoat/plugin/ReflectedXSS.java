@@ -89,6 +89,11 @@ public class ReflectedXSS extends LessonAdapter
         getLessonTracker(s).getLessonProperties().setProperty("card", Catcher.EMPTY_STRING);
     }
 
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 2: Success!");
+        return super.makeSuccess(s);
+    }
+
     protected Element createContent(WebSession s)
     {
 

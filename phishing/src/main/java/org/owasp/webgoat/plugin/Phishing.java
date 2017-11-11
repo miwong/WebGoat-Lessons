@@ -97,6 +97,11 @@ public class Phishing extends LessonAdapter
         getLessonTracker(s).getLessonProperties().setProperty("password", Catcher.EMPTY_STRING);
     }
 
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 1: Success!");
+        return super.makeSuccess(s);
+    }
+
     /**
      * Description of the Method
      * 

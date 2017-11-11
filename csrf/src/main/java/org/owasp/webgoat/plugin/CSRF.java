@@ -104,6 +104,24 @@ public class CSRF extends LessonAdapter
         }
     }
 
+    public void restartLesson(WebSession s) {
+        try {
+            Connection connection = DatabaseUtilities.getConnection(getNameroot(s.getUserName()),s.getWebgoatContext());
+            String query = "DELETE FROM messages";
+            PreparedStatement statement = connection.prepareStatement(query,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.execute();
+
+        } catch (Exception e) {
+            s.setMessage("Could not delete messages from database");
+        }
+    }
+
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 3: Success!");
+        return super.makeSuccess(s);
+    }
+
     @Override
     protected Element createContent(WebSession s)
     {
