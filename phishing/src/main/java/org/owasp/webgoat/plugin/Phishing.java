@@ -83,7 +83,7 @@ public class Phishing extends LessonAdapter
                     "user", Catcher.EMPTY_STRING);
             String postedPassword = getLessonTracker(s).getLessonProperties().getProperty(
                     "password", Catcher.EMPTY_STRING);
-            //System.out.println("ECE568-Part1-Phishing: user = " + postedUser + "; password = " + postedPassword);
+            System.out.println("ECE568 Part1: posted credentials: user = " + postedUser + "; password = " + postedPassword);
             return (!postedUser.equals(Catcher.EMPTY_STRING)) &&
                    (!postedPassword.equals(Catcher.EMPTY_STRING));
         }

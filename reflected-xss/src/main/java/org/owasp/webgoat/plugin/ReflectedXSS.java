@@ -16,6 +16,7 @@ import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TH;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
+import org.owasp.webgoat.Catcher;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAdapter;
 import org.owasp.webgoat.session.ECSFactory;
@@ -64,6 +65,30 @@ public class ReflectedXSS extends LessonAdapter
      * @return Description of the Return Value
      */
 
+    private boolean postedCredentials(WebSession s)
+    {
+        String postedToCookieCatcher = getLessonTracker(s).getLessonProperties().getProperty(
+                Catcher.PROPERTY, Catcher.EMPTY_STRING);
+
+        // <START_OMIT_SOURCE>
+        //return (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING));
+
+        // ECE568: Also check and report posted credentials
+        if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
+            String postedCard = getLessonTracker(s).getLessonProperties().getProperty(
+                    "card", Catcher.EMPTY_STRING);
+            System.out.println("ECE568 Part2: credit card = " + postedCard);
+            return !postedCard.equals(Catcher.EMPTY_STRING);
+        }
+        return false;
+        // <END_OMIT_SOURCE>
+    }
+
+    public void restartLesson(WebSession s) {
+        getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("card", Catcher.EMPTY_STRING);
+    }
+
     protected Element createContent(WebSession s)
     {
 
@@ -86,7 +111,10 @@ public class ReflectedXSS extends LessonAdapter
             {
                 if (param1.toLowerCase().indexOf("script") != -1)
                 {
-                    makeSuccess(s);
+                    // ECE568: make this more difficult
+                    if (postedCredentials(s)) {
+                        makeSuccess(s);
+                    }
                 }
 
                 //TODO: encode the param1 in the output. ESAPI was not working for some reason
@@ -184,8 +212,8 @@ public class ReflectedXSS extends LessonAdapter
             t.addElement(tr);
             tr = new TR();
             tr.addElement(new TD().addElement(getLabelManager().get("Enter3DigitCode")+":"));
-            tr.addElement(new TD().addElement("<input name='field1' type='TEXT' value='" + param1 + "'>"));
-            // tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
+            //tr.addElement(new TD().addElement("<input name='field1' type='TEXT' value='" + param1 + "'>"));
+            tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
             t.addElement(tr);
 
             Element b = ECSFactory.makeButton(getLabelManager().get("Purchase"));
