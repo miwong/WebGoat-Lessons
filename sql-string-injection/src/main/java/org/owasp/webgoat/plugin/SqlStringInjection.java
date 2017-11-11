@@ -61,6 +61,11 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
     private String accountName;
 
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 6: Success!");
+        return super.makeSuccess(s);
+    }
+
     /**
      * Description of the Method
      * 

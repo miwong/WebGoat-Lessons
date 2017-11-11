@@ -58,6 +58,12 @@ public class CsrfTokenByPass extends CSRF
         super();
         random = new SecureRandom();
     }
+
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 5: Success!");
+        return super.makeSuccess(s);
+    }
+
     /**
      * if TRANSFER_FUND_PARAMETER is a parameter, them doTransfer is invoked.  doTranser presents the 
      * web content to confirm and then execute a simulated transfer of funds.  An initial request

@@ -53,6 +53,11 @@ public class CsrfPromptByPass extends CSRF
     private static final String CANCEL_TRANSFER = "CANCEL";
     private static final String CONFIRM_TRANFER = "CONFIRM";
     
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 4: Success!");
+        return super.makeSuccess(s);
+    }
+
     /**
      * if TRANSFER_FUND_PARAMETER is a parameter, them doTransfer is invoked.  doTranser presents the 
      * web content to confirm and then execute a simulated transfer of funds.  An initial request

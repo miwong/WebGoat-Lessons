@@ -58,6 +58,12 @@ public class BlindNumericSqlInjection extends LessonAdapter
 
     private final static String TARGET_CC_NUM = "1111222233334444";
 
+
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 8: Success!");
+        return super.makeSuccess(s);
+    }
+
     /**
      * Description of the Method
      * 

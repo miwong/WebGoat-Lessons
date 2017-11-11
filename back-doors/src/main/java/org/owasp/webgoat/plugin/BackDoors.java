@@ -2,6 +2,7 @@
 package org.owasp.webgoat.lessons;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,6 +62,23 @@ public class BackDoors extends SequentialLessonAdapter
     private final static String USERNAME = "username";
 
     private final static String SELECT_ST = "select userid, password, ssn, salary, email from employee where userid=";
+
+    public void restartLesson(WebSession s) {
+        try {
+            Connection connection = DatabaseUtilities.getConnection(s);
+            String query = "UPDATE employee SET salary = 55000 WHERE userid = 101";
+            PreparedStatement statement = connection.prepareStatement(query,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected Element makeSuccess(WebSession s) {
+        System.out.println("ECE568 Part 7: Success!");
+        return super.makeSuccess(s);
+    }
 
     protected Element createContent(WebSession s)
     {
@@ -265,8 +283,8 @@ public class BackDoors extends SequentialLessonAdapter
         hints.add("A semi-colon usually ends a SQL statement and starts a new one.");
         //hints.add("Try this 101 or 1=1; update employee set salary=100000");
         hints.add("To update salaries:  UPDATE employee SET salary=100000");
-        hints.add("For stage 2, try:  101; CREATE TRIGGER myBackDoor BEFORE INSERT ON "
-                + "employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com' WHERE userid = NEW.userid");
+        //hints.add("For stage 2, try:  101; CREATE TRIGGER myBackDoor BEFORE INSERT ON "
+        //        + "employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com' WHERE userid = NEW.userid");
         return hints;
     }
 
