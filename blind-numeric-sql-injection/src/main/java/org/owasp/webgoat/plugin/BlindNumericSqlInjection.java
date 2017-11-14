@@ -105,8 +105,8 @@ public class BlindNumericSqlInjection extends LessonAdapter
             ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet answer_results = answer_statement.executeQuery(answer_query);
         answer_results.first();
-        System.out.println("Account: " + accountNumber );
-        System.out.println("Answer : " + answer_results.getString(1));
+        //System.out.println("Account: " + accountNumber );
+        //System.out.println("Answer : " + answer_results.getString(1));
         if (accountNumber.toString().equals(answer_results.getString(1)))
         {
             makeSuccess(s);
