@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.BR;
@@ -65,6 +66,9 @@ public class ReflectedXSS extends LessonAdapter
      * @return Description of the Return Value
      */
 
+    static private String JSESSIONID = "JSESSIONID";
+    static private String ECE568ID = "ECE568ID";
+
     private boolean postedCredentials(WebSession s)
     {
         String postedToCookieCatcher = getLessonTracker(s).getLessonProperties().getProperty(
@@ -73,12 +77,14 @@ public class ReflectedXSS extends LessonAdapter
         // <START_OMIT_SOURCE>
         //return (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING));
 
-        // ECE568: Also check and report posted credentials
+        // ECE568: Also check and report posted cookie
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
-            String postedCard = getLessonTracker(s).getLessonProperties().getProperty(
-                    "card", Catcher.EMPTY_STRING);
-            System.out.println("ECE568 Part2: credit card = " + postedCard);
-            return !postedCard.equals(Catcher.EMPTY_STRING);
+            String postedCookie = getLessonTracker(s).getLessonProperties().getProperty(
+                    "cookie", Catcher.EMPTY_STRING);
+            System.out.println("ECE568 Part2: cookie = " + postedCookie);
+
+            String originalCookie = s.getCookie(ECE568ID);
+            return postedCookie.equals(originalCookie);
         }
         return false;
         // <END_OMIT_SOURCE>
@@ -86,7 +92,7 @@ public class ReflectedXSS extends LessonAdapter
 
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("card", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("cookie", Catcher.EMPTY_STRING);
     }
 
     protected Element makeSuccess(WebSession s) {
@@ -96,6 +102,9 @@ public class ReflectedXSS extends LessonAdapter
 
     protected Element createContent(WebSession s)
     {
+        // Make sure cookie is not http-only.
+        String cookie = s.getCookie(JSESSIONID);
+        s.getResponse().setHeader("Set-Cookie", ECE568ID + "=" + cookie + ";");
 
         ElementContainer ec = new ElementContainer();
         String regex1 = "^[0-9]{3}$";// any three digits
@@ -112,15 +121,21 @@ public class ReflectedXSS extends LessonAdapter
             DecimalFormat money = new DecimalFormat("$0.00");
 
             // test input field1
+
+            // ECE568: make this more difficult
+            if (postedCredentials(s)) {
+                makeSuccess(s);
+            }
+
             if (!pattern1.matcher(param1).matches())
             {
-                if (param1.toLowerCase().indexOf("script") != -1)
-                {
-                    // ECE568: make this more difficult
-                    if (postedCredentials(s)) {
-                        makeSuccess(s);
-                    }
-                }
+                //if (param1.toLowerCase().indexOf("script") != -1)
+                //{
+                //    // ECE568: make this more difficult
+                //    if (postedCredentials(s)) {
+                //        makeSuccess(s);
+                //    }
+                //}
 
                 //TODO: encode the param1 in the output. ESAPI was not working for some reason
                s.setMessage(getLabelManager().get("ReflectedXSSWhoops1") + param1  + getLabelManager().get("ReflectedXSSWhoops2"));
@@ -258,8 +273,6 @@ public class ReflectedXSS extends LessonAdapter
         hints.add(getLabelManager().get("ReflectedXSSHint1"));
         hints.add(getLabelManager().get("ReflectedXSSHint2"));
         hints.add(getLabelManager().get("ReflectedXSSHint3"));
-        hints.add(getLabelManager().get("ReflectedXSSHint4"));
-        hints.add(getLabelManager().get("ReflectedXSSHint5"));
         
         return hints;
     }
