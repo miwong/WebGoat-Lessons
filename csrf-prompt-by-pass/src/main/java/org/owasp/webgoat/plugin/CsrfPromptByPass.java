@@ -47,11 +47,11 @@ import java.util.List;
  */
 public class CsrfPromptByPass extends CSRF
 {
-    private static final String TRANSFER_FUNDS_PARAMETER = "transferFunds";
+    private static final String TRANSFER_FUNDS_PARAMETER = "transfer";
     private static final String TRANSFER_FUNDS_PAGE = "main";
     private static final String TRANSFER_FUND_AMOUNT_ATTRIBUTE = "transferFundAmount";
-    private static final String CANCEL_TRANSFER = "CANCEL";
-    private static final String CONFIRM_TRANFER = "CONFIRM";
+    private static final String CANCEL_TRANSFER = "CANCELLED";
+    private static final String CONFIRM_TRANSFER = "CONFIRMED";
     
     protected Element makeSuccess(WebSession s) {
         System.out.println("ECE568 Part 4: Success!");
@@ -87,7 +87,7 @@ public class CsrfPromptByPass extends CSRF
                 form.addElement( new Input(Input.submit));
                 ec.addElement(form);
                 
-            } else if (transferFunds.equalsIgnoreCase(CONFIRM_TRANFER) && transferAmount != null ){
+            } else if (transferFunds.equalsIgnoreCase(CONFIRM_TRANSFER) && transferAmount != null ){
                 
                 //transfer is confirmed
                 ec.addElement(new H1("Electronic Transfer Complete"));
@@ -112,7 +112,7 @@ public class CsrfPromptByPass extends CSRF
                 ec.addElement(new BR());
                 String action = getLink();
                 Form form = new Form(action, Form.POST);
-                form.addElement( new Input(Input.submit, TRANSFER_FUNDS_PARAMETER, CONFIRM_TRANFER));
+                form.addElement( new Input(Input.submit, TRANSFER_FUNDS_PARAMETER, CONFIRM_TRANSFER));
                 form.addElement( new Input(Input.submit, TRANSFER_FUNDS_PARAMETER, CANCEL_TRANSFER));
                 ec.addElement(form);    
             }

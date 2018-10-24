@@ -49,8 +49,8 @@ import java.util.Random;
 public class CsrfTokenByPass extends CSRF
 {
     private static final String TRANSFER_FUNDS_PAGE = "main";
-    private static final String TRANSFER_FUNDS_PARAMETER = "transferFunds";
-    private static final String CSRFTOKEN = "CSRFToken";
+    private static final String TRANSFER_FUNDS_PARAMETER = "transfer";
+    private static final String CSRFTOKEN = "token";
     private static final int INVALID_TOKEN = 0;
     private final Random random;
     
@@ -99,7 +99,7 @@ public class CsrfTokenByPass extends CSRF
                 ec.addElement(new H1("Electronic Transfer:"));
                 String action = getLink();
                 Form form = new Form(action, Form.POST);
-                form.addAttribute("id", "transferForm");
+                form.addAttribute("id", "initTransferForm");
                 form.addElement( new Input(Input.text, TRANSFER_FUNDS_PARAMETER, "0"));
                 form.addElement( new Input(Input.hidden, CSRFTOKEN, token));
                 form.addElement( new Input(Input.submit));
@@ -136,9 +136,9 @@ public class CsrfTokenByPass extends CSRF
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add("Add 'transferFunds=main' to the URL and inspect the form that is returned");
+        hints.add("Add 'transfer=main' to the URL and inspect the form that is returned");
         hints.add("The forged request needs both a token and the transfer funds parameter");
-        hints.add("Find the token in the page with transferFunds=main. Can you script a way to get the token?");
+        hints.add("Find the token in the page with transfer=main. Can you script a way to get the token?");
         
         return hints;
     }

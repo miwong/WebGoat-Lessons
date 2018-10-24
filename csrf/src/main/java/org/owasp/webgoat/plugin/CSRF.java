@@ -60,7 +60,7 @@ import java.util.List;
  */
 public class CSRF extends LessonAdapter
 {
-    private static final String TRANSFER_FUNDS_PARAMETER = "transferFunds";
+    private static final String TRANSFER_FUNDS_PARAMETER = "transfer";
     private static final String TRANSFER_FUNDS_PAGE = "main";
 
     private final static String MESSAGE = "message";
@@ -267,7 +267,7 @@ public class CSRF extends LessonAdapter
         ElementContainer ec = new ElementContainer();
         ec.addElement(new H1("Message List"));
         ec.addElement(t);
-        String transferFunds = s.getParser().getRawParameter("transferFunds", "");
+        String transferFunds = s.getParser().getRawParameter(TRANSFER_FUNDS_PARAMETER, "");
         if (transferFunds.length() != 0)
         {
             makeSuccess(s);

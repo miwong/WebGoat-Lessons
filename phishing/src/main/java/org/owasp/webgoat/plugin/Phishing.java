@@ -80,10 +80,10 @@ public class Phishing extends LessonAdapter
         // ECE568: Also check and report posted credentials
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
             String postedUser = getLessonTracker(s).getLessonProperties().getProperty(
-                    "user", Catcher.EMPTY_STRING);
+                    "userText", Catcher.EMPTY_STRING);
             String postedPassword = getLessonTracker(s).getLessonProperties().getProperty(
-                    "password", Catcher.EMPTY_STRING);
-            System.out.println("ECE568 Part1: posted credentials: user = " + postedUser + "; password = " + postedPassword);
+                    "passText", Catcher.EMPTY_STRING);
+            System.out.println("ECE568 Part1: posted credentials: userText = " + postedUser + "; passText = " + postedPassword);
             return (!postedUser.equals(Catcher.EMPTY_STRING)) &&
                    (!postedPassword.equals(Catcher.EMPTY_STRING));
         }
@@ -93,8 +93,8 @@ public class Phishing extends LessonAdapter
 
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("user", Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("password", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("userText", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("passText", Catcher.EMPTY_STRING);
     }
 
     protected Element makeSuccess(WebSession s) {
@@ -208,9 +208,9 @@ public class Phishing extends LessonAdapter
          * <H3>This feature requires account login:</H2> <br>
          * <br>
          * Enter Username:<br>
-         * <input type="text" name="user"><br>
+         * <input type="text" name="userText"><br>
          * Enter Password:<br>
-         * <input type="password" name = "pass"><br>
+         * <input type="password" name = "passText"><br>
          * <input type="submit" name="login" value="login" onclick="hack()"></form><br>
          * <br>
          * <HR>

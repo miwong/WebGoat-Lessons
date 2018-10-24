@@ -81,10 +81,13 @@ public class ReflectedXSS extends LessonAdapter
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
             String postedCookie = getLessonTracker(s).getLessonProperties().getProperty(
                     "cookie", Catcher.EMPTY_STRING);
-            System.out.println("ECE568 Part2: cookie = " + postedCookie);
+            String postedCredit = getLessonTracker(s).getLessonProperties().getProperty(
+                    "credit", Catcher.EMPTY_STRING);
+            System.out.println("ECE568 Part2: cookie = " + postedCookie + "; credit = " + postedCredit);
 
             String originalCookie = s.getCookie(ECE568ID);
-            return postedCookie.equals(originalCookie);
+            String defaultCredit = "4128 3214 0002 1999";
+            return postedCookie.equals(originalCookie) && !postedCredit.equals(defaultCredit);
         }
         return false;
         // <END_OMIT_SOURCE>
@@ -93,6 +96,7 @@ public class ReflectedXSS extends LessonAdapter
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
         getLessonTracker(s).getLessonProperties().setProperty("cookie", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("credit", Catcher.EMPTY_STRING);
     }
 
     protected Element makeSuccess(WebSession s) {
@@ -112,7 +116,7 @@ public class ReflectedXSS extends LessonAdapter
 
         try
         {
-            String param1 = s.getParser().getRawParameter("field1", "111");
+            String param1 = s.getParser().getRawParameter("field1", "000");
             String param2 = HtmlEncoder.encode(s.getParser().getRawParameter("field2", "4128 3214 0002 1999"));
             float quantity = 1.0f;
             float total = 0.0f;
@@ -162,7 +166,7 @@ public class ReflectedXSS extends LessonAdapter
             tr.addElement(new TD().addElement("69.99").setAlign("right"));
             tr.addElement(new TD().addElement(
                                                 new Input(Input.TEXT, "QTY1", s.getParser().getStringParameter("QTY1",
-                                                                                                                "1"))
+                                                                                                                "0"))
                                                         .setSize(6)).setAlign("right"));
             quantity = s.getParser().getFloatParameter("QTY1", 0.0f);
             total = quantity * 69.99f;
@@ -174,7 +178,7 @@ public class ReflectedXSS extends LessonAdapter
             tr.addElement(new TD().addElement("27.99").setAlign("right"));
             tr.addElement(new TD().addElement(
                                                 new Input(Input.TEXT, "QTY2", s.getParser().getStringParameter("QTY2",
-                                                                                                                "1"))
+                                                                                                                "0"))
                                                         .setSize(6)).setAlign("right"));
             quantity = s.getParser().getFloatParameter("QTY2", 0.0f);
             total = quantity * 27.99f;
@@ -186,7 +190,7 @@ public class ReflectedXSS extends LessonAdapter
             tr.addElement(new TD().addElement("1599.99").setAlign("right"));
             tr.addElement(new TD().addElement(
                                                 new Input(Input.TEXT, "QTY3", s.getParser().getStringParameter("QTY3",
-                                                                                                                "1"))
+                                                                                                                "0"))
                                                         .setSize(6)).setAlign("right"));
             quantity = s.getParser().getFloatParameter("QTY3", 0.0f);
             total = quantity * 1599.99f;
@@ -199,7 +203,7 @@ public class ReflectedXSS extends LessonAdapter
 
             tr.addElement(new TD().addElement(
                                                 new Input(Input.TEXT, "QTY4", s.getParser().getStringParameter("QTY4",
-                                                                                                                "1"))
+                                                                                                                "0"))
                                                         .setSize(6)).setAlign("right"));
             quantity = s.getParser().getFloatParameter("QTY4", 0.0f);
             total = quantity * 299.99f;
@@ -236,7 +240,13 @@ public class ReflectedXSS extends LessonAdapter
             tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
             t.addElement(tr);
 
-            Element b = ECSFactory.makeButton(getLabelManager().get("Purchase"));
+            // ECE568: add custom name for purchase button.
+            //Element b = ECSFactory.makeButton(getLabelManager().get("Purchase"));
+            Input b = new Input();
+            b.setType(Input.SUBMIT);
+            b.setValue(getLabelManager().get("Purchase"));
+            b.setName("purchase");
+
             tr = new TR();
             tr.addElement(new TD().addElement(b).setColSpan(2).setAlign("center"));
             t.addElement(tr);

@@ -24,11 +24,9 @@ Similar to the CSRF Lesson, your goal is to send an email to a newsgroup that
 contains multiple malicious requests: the first to transfer funds, and the
 second a request to confirm the prompt that the first request triggered.  The
 URLs should point to the attack servlet with this CSRF-prompt-by-pass lesson's
-Screen, menu parameters and with an extra parameter "transferFunds" having a
-numeric value such as "5000" to initiate a transfer and a string value
-"CONFIRM" to complete it. You can copy the lesson's parameters from the inset
-on the right to create the URLs of the format
-"attack?Screen=XXX&amp;menu=YYY&amp;transferFunds=ZZZ".
+Screen and menu parameters, and with an extra parameter "transfer". You can copy
+the lesson's parameters from the inset on the right to create the URLs of the format
+"attack?Screen=XXX&amp;menu=YYY&amp;transfer=ZZZ".
 
 Whoever receives this email and happens to be authenticated at that time will have his funds transferred. 
 When you think the attack is successful, refresh the page and you will find the green check on 
