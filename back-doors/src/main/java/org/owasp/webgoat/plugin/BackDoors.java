@@ -66,10 +66,15 @@ public class BackDoors extends SequentialLessonAdapter
     public void restartLesson(WebSession s) {
         try {
             Connection connection = DatabaseUtilities.getConnection(s);
-            String query = "UPDATE employee SET salary = 55000 WHERE userid = 101";
+            String query = "UPDATE employee SET salary = 10000 WHERE userid = 101";
             PreparedStatement statement = connection.prepareStatement(query,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.execute();
+
+            String query2 = "UPDATE employee SET salary = 140000 WHERE userid = 102";
+            PreparedStatement statement2 = connection.prepareStatement(query2,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement2.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,9 +161,11 @@ public class BackDoors extends SequentialLessonAdapter
                 {
                     statement.executeUpdate(arrSQL[1]);
 
-                    getLessonTracker(s).setStage(2);
-                    s
-                            .setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
+                    if (concept1Completed(conn)) {
+                        // Proceed to next part.
+                        getLessonTracker(s).setStage(2);
+                        s.setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
+                    }
                 }
 
                 ResultSet rs = statement.executeQuery(arrSQL[0]);
@@ -170,6 +177,29 @@ public class BackDoors extends SequentialLessonAdapter
             ec.addElement(new PRE(ex.getMessage()));
         }
         return ec;
+    }
+
+    protected boolean concept1Completed(Connection connection) throws Exception {
+        // Check that only specified user's salary was updated.
+        Statement checkStatement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                              ResultSet.CONCUR_READ_ONLY);
+
+        String query101 = "select salary from employee where userid = 101";
+        ResultSet rs101 = checkStatement.executeQuery(query101);
+        if (!rs101.next()) {
+            return false;
+        }
+        String salary101 = rs101.getString("salary");
+
+        String query102 = "select salary from employee where userid = 102";
+        ResultSet rs102 = checkStatement.executeQuery(query102);
+        if (!rs102.next()) {
+            return false;
+        }
+        String salary102 = rs102.getString("salary");
+
+        System.out.println("ECE568: employee 101 salary = " + salary101 + "; employee 102 salary = " + salary102);
+        return salary101.equals("500500") && !salary102.equals("500500");
     }
 
     protected Element concept2(WebSession s) throws Exception
@@ -188,7 +218,8 @@ public class BackDoors extends SequentialLessonAdapter
 
             if (arrSQL.length == 2)
             {
-                if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != -1)
+                if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != -1 &&
+                        userInput.indexOf("ece568@utoronto.ca") != -1)
                 {
                     makeSuccess(s);
                 }
@@ -214,10 +245,10 @@ public class BackDoors extends SequentialLessonAdapter
                     instructions = instructions
                             + " The first stage of this lesson is to teach you how to use a vulnerable field to create two SQL ";
                     instructions = instructions
-                            + " statements. The first is the system's while the second is totally yours.";
+                            + " statements. The first is the system's while the second is under your control.";
                     instructions = instructions
                             + " Your account ID is 101. This page allows you to see your password, ssn and salary.";
-                    instructions = instructions + "  Try to inject another update to update salary to something higher";
+                    instructions = instructions + "  Try to inject another update to update your salary to something higher";
                     break;
                 case 2:
                     instructions = "Stage " + getStage(s) + ": Use String SQL Injection to inject a backdoor. ";
@@ -227,7 +258,8 @@ public class BackDoors extends SequentialLessonAdapter
                             + " Now try to use the same technique to inject a trigger that would act as ";
                     instructions = instructions + " SQL backdoor, the syntax of a trigger is: <br>";
                     instructions = instructions
-                            + " CREATE TRIGGER myBackDoor BEFORE INSERT ON employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com'WHERE userid = NEW.userid<br>";
+                            + " CREATE TRIGGER &lt;trigger_name&gt; BEFORE INSERT ON &lt;table&gt; FOR EACH ROW BEGIN UPDATE &lt;table&gt; "
+                            + "SET &lt;field&gt;=&lt;new_value&gt; WHERE userid = NEW.userid<br>";
                     instructions = instructions
                             + " Note that nothing will actually be executed because the current underlying DB doesn't support triggers.";
                     break;
