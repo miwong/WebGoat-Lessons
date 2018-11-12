@@ -98,7 +98,7 @@ public class CsrfTokenByPass extends CSRF
                 //present transfer form
                 ec.addElement(new H1("Electronic Transfer:"));
                 String action = getLink();
-                Form form = new Form(action, Form.POST);
+                Form form = new Form(action, Form.GET);
                 form.addAttribute("id", "initTransferForm");
                 form.addElement( new Input(Input.text, TRANSFER_FUNDS_PARAMETER, "0"));
                 form.addElement( new Input(Input.hidden, CSRFTOKEN, token));

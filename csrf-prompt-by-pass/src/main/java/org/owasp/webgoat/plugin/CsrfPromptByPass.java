@@ -81,7 +81,7 @@ public class CsrfPromptByPass extends CSRF
                 //present transfer form
                 ec.addElement(new H1("Electronic Transfer:"));
                 String action = getLink();
-                Form form = new Form(action, Form.POST);
+                Form form = new Form(action, Form.GET);
                 form.addElement( new Input(Input.text, TRANSFER_FUNDS_PARAMETER, "0"));
                 //if this token is present we won't mark the lesson as completed
                 form.addElement( new Input(Input.submit));
@@ -111,7 +111,7 @@ public class CsrfPromptByPass extends CSRF
                 ec.addElement(new StringElement("Amount to transfer: "+transferAmount));
                 ec.addElement(new BR());
                 String action = getLink();
-                Form form = new Form(action, Form.POST);
+                Form form = new Form(action, Form.GET);
                 form.addElement( new Input(Input.submit, TRANSFER_FUNDS_PARAMETER, CONFIRM_TRANSFER));
                 form.addElement( new Input(Input.submit, TRANSFER_FUNDS_PARAMETER, CANCEL_TRANSFER));
                 ec.addElement(form);    
