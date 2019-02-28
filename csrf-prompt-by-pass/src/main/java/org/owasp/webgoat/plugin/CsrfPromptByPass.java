@@ -155,7 +155,7 @@ public class CsrfPromptByPass extends CSRF
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add("Inspect the page returned by a URL '" + getServletLink() + "&transferFunds=5000'");
+        hints.add("Inspect the page returned by a URL '" + getServletLink() + "&transfer=5000'");
         hints.add("Write a malicious message that, when shown in the browser, will submit the two fund requests.");
         hints.add("Insert two images or iframes, the second with no source.  Specify the onload attribute of the first iframe to set the source of the second iframe.");
         //hints.add("Include these URLs in the message: <pre>'" + getServletLink() + "&transferFunds=400'</pre> " +

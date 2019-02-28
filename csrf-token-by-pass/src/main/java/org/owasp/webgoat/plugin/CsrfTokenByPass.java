@@ -137,7 +137,7 @@ public class CsrfTokenByPass extends CSRF
     {
         List<String> hints = new ArrayList<String>();
         hints.add("Add 'transfer=main' to the URL and inspect the form that is returned");
-        hints.add("The forged request needs both a token and the transfer funds parameter");
+        hints.add("The forged request needs both a token and the transfer parameter");
         hints.add("Find the token in the page with transfer=main. Can you script a way to get the token?");
         
         return hints;

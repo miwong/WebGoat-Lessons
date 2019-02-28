@@ -77,17 +77,15 @@ public class ReflectedXSS extends LessonAdapter
         // <START_OMIT_SOURCE>
         //return (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING));
 
-        // ECE568: Also check and report posted cookie
+        // ECE568: Check posted credit card number is not the default number.
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
-            String postedCookie = getLessonTracker(s).getLessonProperties().getProperty(
-                    "cookie", Catcher.EMPTY_STRING);
             String postedCredit = getLessonTracker(s).getLessonProperties().getProperty(
                     "credit", Catcher.EMPTY_STRING);
-            System.out.println("ECE568 Part2: cookie = " + postedCookie + "; credit = " + postedCredit);
+            System.out.println("ECE568 Part2: credit = " + postedCredit);
 
-            String originalCookie = s.getCookie(ECE568ID);
             String defaultCredit = "4128 3214 0002 1999";
-            return postedCookie.equals(originalCookie) && !postedCredit.equals(defaultCredit);
+            String defaultCreditCompressed = "4128321400021999";
+            return !postedCredit.equals(defaultCredit) && !postedCredit.equals(defaultCreditCompressed);
         }
         return false;
         // <END_OMIT_SOURCE>
@@ -95,7 +93,6 @@ public class ReflectedXSS extends LessonAdapter
 
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("cookie", Catcher.EMPTY_STRING);
         getLessonTracker(s).getLessonProperties().setProperty("credit", Catcher.EMPTY_STRING);
     }
 

@@ -157,7 +157,7 @@ public class CSRF extends LessonAdapter
             //transfer form
             ec.addElement(new H1("Electronic Transfer:"));
             String action = getLink();
-            Form form = new Form(action, Form.POST);
+            Form form = new Form(action, Form.GET);
             form.addElement( new Input(Input.text, TRANSFER_FUNDS_PARAMETER, "0"));
             //if this token is present we won't mark the lesson as completed
             form.addElement( new Input(Input.submit));
