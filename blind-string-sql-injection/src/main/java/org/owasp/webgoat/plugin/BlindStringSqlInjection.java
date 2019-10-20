@@ -90,7 +90,7 @@ public class BlindStringSqlInjection extends LessonAdapter
 //          + TARGET_CC_NUM;
 //      } else
 //      {
-        answer_query = "SELECT name FROM pins WHERE cc_number = '" + TARGET_CC_NUM +"'";
+        answer_query = "SELECT name FROM credit WHERE cc_number = '" + TARGET_CC_NUM +"'";
 //      }
 
         try
@@ -222,7 +222,7 @@ public class BlindStringSqlInjection extends LessonAdapter
                 + "<br><br>Is the first character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
                 + TARGET_CC_NUM
                 + "</i> less than 'M'? "
-                + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
+                + "<br><br>101 AND (SUBSTRING((SELECT name FROM credit WHERE cc_number='"
                 + TARGET_CC_NUM
                 + "'), 1, 1) &lt 'M' ); "
                 + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
@@ -232,7 +232,7 @@ public class BlindStringSqlInjection extends LessonAdapter
                 + "<br><br>Is the first character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
                 + TARGET_CC_NUM
                 + "</i> less than 'H'? "
-                + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
+                + "<br><br>101 AND (SUBSTRING((SELECT name FROM credit WHERE cc_number='"
                 + TARGET_CC_NUM
                 + "'), 1, 1) &lt 'H' ); "
                 + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
@@ -242,7 +242,7 @@ public class BlindStringSqlInjection extends LessonAdapter
                 + "<br><br>Is the second character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
                 + TARGET_CC_NUM
                 + "</i> greater than 'k'? "
-                + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
+                + "<br><br>101 AND (SUBSTRING((SELECT name FROM credit WHERE cc_number='"
                 + TARGET_CC_NUM
                 + "'), 2, 1) &gt 'k' ); "
                 + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
@@ -263,7 +263,7 @@ public class BlindStringSqlInjection extends LessonAdapter
         + "it is valid or not.  Use this form to develop a true / false test check other entries in the database.  "
         + "<br><br>Reference Ascii Values: 'A' = 65   'Z' = 90   'a' = 97   'z' = 122 "
         + "<br><br>The goal is to find the value of "
-        + "the field <b>name</b> in table <b>pins</b> for the row with the <b>cc_number</b> of <b>"
+        + "the field <b>name</b> in table <b>credit</b> for the row with the <b>cc_number</b> of <b>"
         + TARGET_CC_NUM
         + "</b>.  The field is of type varchar, which is a string." 
         + "<br><br>Put the discovered name in the form to pass the lesson.  Only the discovered name "

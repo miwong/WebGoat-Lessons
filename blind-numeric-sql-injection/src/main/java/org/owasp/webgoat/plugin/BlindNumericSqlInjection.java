@@ -56,7 +56,7 @@ public class BlindNumericSqlInjection extends LessonAdapter
 
     private final static String ACCT_NUM = "account_number";
 
-    private final static String TARGET_CC_NUM = "1212343456567878";
+    private final static String TARGET_CC_NUM = "1324354657687980";
 
 
     protected Element makeSuccess(WebSession s) {
@@ -96,7 +96,7 @@ public class BlindNumericSqlInjection extends LessonAdapter
 //          + TARGET_CC_NUM;
 //      } else
 //      {
-        answer_query = "SELECT pin FROM pins WHERE cc_number = '" + TARGET_CC_NUM + "'";
+        answer_query = "SELECT pin FROM credit WHERE cc_number = '" + TARGET_CC_NUM + "'";
 //      }
 
         try
@@ -192,7 +192,7 @@ public class BlindNumericSqlInjection extends LessonAdapter
         //        + "<br><br>Is the <i>pin</i> of the record with a <i>cc_number</i> of <i>"
         //        + TARGET_CC_NUM
         //        + "</i> greater than 1000? "
-        //        + "<br><br>101 AND ((SELECT pin FROM pins WHERE cc_number='"
+        //        + "<br><br>101 AND ((SELECT pin FROM credit WHERE cc_number='"
         //        + TARGET_CC_NUM
         //        + "') &gt 1000 ); "
         //        + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
@@ -202,7 +202,7 @@ public class BlindNumericSqlInjection extends LessonAdapter
         //        + "<br><br>Is the <i>pin</i> of the record with a <i>cc_number</i> of <i>"
         //        + TARGET_CC_NUM
         //        + "</i> greater than 10000? "
-        //        + "<br><br>101 AND ((SELECT pin FROM pins WHERE cc_number='"
+        //        + "<br><br>101 AND ((SELECT pin FROM credit WHERE cc_number='"
         //        + TARGET_CC_NUM
         //        + "') &gt 10000 ); "
         //        + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
@@ -221,7 +221,7 @@ public class BlindNumericSqlInjection extends LessonAdapter
     String instructions = "The form below allows a user to enter an account number and determine if "
         + "it is valid or not.  Use this form to develop a true / false test check other entries in the database.  "
         + "<br><br>The goal is to find the value of "
-        + "the field <b>pin</b> in table <b>pins</b> for the row with the <b>cc_number</b> of <b> "
+        + "the field <b>pin</b> in table <b>credit</b> for the row with the <b>cc_number</b> of <b> "
         + TARGET_CC_NUM
         + "</b>.  The field is of type int, which is an integer."
         + "<br><br>Put the discovered pin value in the form to pass the lesson.";

@@ -69,7 +69,7 @@ public class ReflectedXSS extends LessonAdapter
     static private String JSESSIONID = "JSESSIONID";
     static private String ECE568ID = "ECE568ID";
 
-    private boolean postedCredentials(WebSession s)
+    private boolean postedCredentials(WebSession s, String userCredit)
     {
         String postedToCookieCatcher = getLessonTracker(s).getLessonProperties().getProperty(
                 Catcher.PROPERTY, Catcher.EMPTY_STRING);
@@ -80,12 +80,16 @@ public class ReflectedXSS extends LessonAdapter
         // ECE568: Check posted credit card number is not the default number.
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
             String postedCredit = getLessonTracker(s).getLessonProperties().getProperty(
-                    "credit", Catcher.EMPTY_STRING);
-            System.out.println("ECE568 Part2: credit = " + postedCredit);
-
+                    "stolenCredit", Catcher.EMPTY_STRING);
             String defaultCredit = "4128 3214 0002 1999";
-            String defaultCreditCompressed = "4128321400021999";
-            return !postedCredit.equals(defaultCredit) && !postedCredit.equals(defaultCreditCompressed);
+
+            System.out.println("ECE568 Part2: stolenCredit = " + postedCredit);
+
+            return !postedCredit.trim().isEmpty()
+                    && (!postedCredit.equals(defaultCredit) || userCredit.equals(defaultCredit));
+
+            //String defaultCreditCompressed = "4128321400021999";
+            //return !postedCredit.equals(defaultCredit) && !postedCredit.equals(defaultCreditCompressed);
         }
         return false;
         // <END_OMIT_SOURCE>
@@ -93,7 +97,7 @@ public class ReflectedXSS extends LessonAdapter
 
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("credit", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("stolenCredit", Catcher.EMPTY_STRING);
     }
 
     protected Element makeSuccess(WebSession s) {
@@ -113,24 +117,25 @@ public class ReflectedXSS extends LessonAdapter
 
         try
         {
-            String param1 = s.getParser().getRawParameter("field1", "000");
-            String param2 = HtmlEncoder.encode(s.getParser().getRawParameter("field2", "4128 3214 0002 1999"));
+            String param1 = HtmlEncoder.encode(s.getParser().getRawParameter(
+                    "input1", "4128 3214 0002 1999"));
+            String param2 = s.getParser().getRawParameter("input2", "000");
             float quantity = 1.0f;
             float total = 0.0f;
             float runningTotal = 0.0f;
 
             DecimalFormat money = new DecimalFormat("$0.00");
 
-            // test input field1
+            // test input input1
 
             // ECE568: make this more difficult
-            if (postedCredentials(s)) {
+            if (postedCredentials(s, param1)) {
                 makeSuccess(s);
             }
 
-            if (!pattern1.matcher(param1).matches())
+            if (!pattern1.matcher(param2).matches())
             {
-                //if (param1.toLowerCase().indexOf("script") != -1)
+                //if (param2.toLowerCase().indexOf("script") != -1)
                 //{
                 //    // ECE568: make this more difficult
                 //    if (postedCredentials(s)) {
@@ -138,8 +143,8 @@ public class ReflectedXSS extends LessonAdapter
                 //    }
                 //}
 
-                //TODO: encode the param1 in the output. ESAPI was not working for some reason
-               s.setMessage(getLabelManager().get("ReflectedXSSWhoops1") + param1  + getLabelManager().get("ReflectedXSSWhoops2"));
+                //TODO: encode the param2 in the output. ESAPI was not working for some reason
+                s.setMessage(getLabelManager().get("ReflectedXSSWhoops1") + param2  + getLabelManager().get("ReflectedXSSWhoops2"));
             }
 
             ec.addElement(new HR().setWidth("90%"));
@@ -229,26 +234,26 @@ public class ReflectedXSS extends LessonAdapter
             t.addElement(tr);
             tr = new TR();
             tr.addElement(new TD().addElement(getLabelManager().get("EnterCreditCard")+":"));
-            tr.addElement(new TD().addElement(new Input(Input.TEXT, "field2", param2)));
+            tr.addElement(new TD().addElement(new Input(Input.TEXT, "input1", param1)));
             t.addElement(tr);
             tr = new TR();
             tr.addElement(new TD().addElement(getLabelManager().get("Enter3DigitCode")+":"));
-            //tr.addElement(new TD().addElement("<input name='field1' type='TEXT' value='" + param1 + "'>"));
-            tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
+            //tr.addElement(new TD().addElement("<input name='input2' type='TEXT' value='" + param2 + "'>"));
+            tr.addElement(new TD().addElement(new Input(Input.TEXT, "input2", param2)));
             t.addElement(tr);
 
             // ECE568: add custom name for purchase button.
+            tr = new TR();
             //Element b = ECSFactory.makeButton(getLabelManager().get("Purchase"));
             Input b = new Input();
             b.setType(Input.SUBMIT);
             b.setValue(getLabelManager().get("Purchase"));
-            b.setName("purchase");
-
-            tr = new TR();
+            b.setName("buy");
             tr.addElement(new TD().addElement(b).setColSpan(2).setAlign("center"));
             t.addElement(tr);
 
             ec.addElement(t);
+
             ec.addElement(new BR());
             ec.addElement(new HR().setWidth("90%"));
         } catch (Exception e)

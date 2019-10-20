@@ -199,7 +199,7 @@ public class BackDoors extends SequentialLessonAdapter
         String salary102 = rs102.getString("salary");
 
         System.out.println("ECE568: employee 101 salary = " + salary101 + "; employee 102 salary = " + salary102);
-        return salary101.equals("500500") && !salary102.equals("500500");
+        return salary101.equals("555000") && !salary102.equals("555000");
     }
 
     protected Element concept2(WebSession s) throws Exception
@@ -219,7 +219,7 @@ public class BackDoors extends SequentialLessonAdapter
             if (arrSQL.length == 2)
             {
                 if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != -1 &&
-                        userInput.indexOf("ece568@utoronto.ca") != -1)
+                        userInput.indexOf("ece568-2019f@utoronto.ca") != -1)
                 {
                     makeSuccess(s);
                 }

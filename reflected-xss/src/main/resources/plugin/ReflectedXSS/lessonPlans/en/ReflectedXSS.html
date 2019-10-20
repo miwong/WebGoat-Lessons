@@ -11,10 +11,10 @@ It is always a good practice to validate all input on the server side.
 <BR><BR>
 For this exercise, you will need to craft a URL that tricks a user into
  visiting a shopping page where you have injected malicious code.
-When the user visits the page, post their cookie and the credit card number
+When the user visits the page, post the credit card number
 they have entered to the following URL to pass this lesson:
 <BR>
-http://localhost:8080/WebGoat/catcher?PROPERTY=yes&credit=___
+http://localhost:8090/WebGoat/catcher?PROPERTY=yes&stolenCredit=___
 <!-- Stop Instructions -->
 <p><b>General Goal(s):</b> </p>
 For this exercise, your mission is to come up with some input containing a script. You have to try to get this page to reflect that input back to your browser, which will execute the script and do something bad.
