@@ -219,7 +219,7 @@ public class BackDoors extends SequentialLessonAdapter
             if (arrSQL.length == 2)
             {
                 if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != -1 &&
-                        userInput.indexOf("ece568-2019f@utoronto.ca") != -1)
+                        userInput.indexOf("ece568-2020@utoronto.ca") != -1)
                 {
                     makeSuccess(s);
                 }

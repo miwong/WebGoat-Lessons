@@ -80,10 +80,10 @@ public class Phishing extends LessonAdapter
         // ECE568: Also check and report posted credentials
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
             String postedUser = getLessonTracker(s).getLessonProperties().getProperty(
-                    "phishUser", Catcher.EMPTY_STRING);
+                    "phishUsername", Catcher.EMPTY_STRING);
             String postedPassword = getLessonTracker(s).getLessonProperties().getProperty(
-                    "phishPass", Catcher.EMPTY_STRING);
-            System.out.println("ECE568 Part1: posted credentials: phishUser = " + postedUser + "; phishPass = " + postedPassword);
+                    "phishPassword", Catcher.EMPTY_STRING);
+            System.out.println("ECE568 Part1: posted credentials: phishUsername = " + postedUser + "; phishPassword = " + postedPassword);
             return (!postedUser.equals(Catcher.EMPTY_STRING)) &&
                    (!postedPassword.equals(Catcher.EMPTY_STRING));
         }
@@ -93,8 +93,8 @@ public class Phishing extends LessonAdapter
 
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("phishUser", Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("phishPass", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("phishUsername", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("phishPassword", Catcher.EMPTY_STRING);
     }
 
     protected Element makeSuccess(WebSession s) {

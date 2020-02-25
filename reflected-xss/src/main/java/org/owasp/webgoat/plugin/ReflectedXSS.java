@@ -80,10 +80,10 @@ public class ReflectedXSS extends LessonAdapter
         // ECE568: Check posted credit card number is not the default number.
         if (!postedToCookieCatcher.equals(Catcher.EMPTY_STRING)) {
             String postedCredit = getLessonTracker(s).getLessonProperties().getProperty(
-                    "stolenCredit", Catcher.EMPTY_STRING);
+                    "stolenCreditCard", Catcher.EMPTY_STRING);
             String defaultCredit = "4128 3214 0002 1999";
 
-            System.out.println("ECE568 Part2: stolenCredit = " + postedCredit);
+            System.out.println("ECE568 Part2: stolenCreditCard = " + postedCredit);
 
             return !postedCredit.trim().isEmpty()
                     && (!postedCredit.equals(defaultCredit) || userCredit.equals(defaultCredit));
@@ -97,7 +97,7 @@ public class ReflectedXSS extends LessonAdapter
 
     public void restartLesson(WebSession s) {
         getLessonTracker(s).getLessonProperties().setProperty(Catcher.PROPERTY, Catcher.EMPTY_STRING);
-        getLessonTracker(s).getLessonProperties().setProperty("stolenCredit", Catcher.EMPTY_STRING);
+        getLessonTracker(s).getLessonProperties().setProperty("stolenCreditCard", Catcher.EMPTY_STRING);
     }
 
     protected Element makeSuccess(WebSession s) {

@@ -56,7 +56,7 @@ public class BlindNumericSqlInjection extends LessonAdapter
 
     private final static String ACCT_NUM = "account_number";
 
-    private final static String TARGET_CC_NUM = "1324354657687980";
+    private final static String TARGET_CC_NUM = "1234123412341234";
 
 
     protected Element makeSuccess(WebSession s) {
